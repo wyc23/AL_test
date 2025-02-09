@@ -1,0 +1,13 @@
+################################
+## White list based gitignore ##
+################################
+
+# forbidden
+*
+.*
+
+# allowed
+!cutest.csv
+!.gitignore
+!src/
+!src/**
