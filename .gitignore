@@ -10,4 +10,6 @@
 !cutest.csv
 !.gitignore
 !src/
-!src/**
+!src/**/*.py
+!results/
+!results/**/*.csv
