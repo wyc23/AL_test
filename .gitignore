@@ -13,3 +13,5 @@
 !src/**/*.py
 !results/
 !results/**/*.csv
+!analysis/
+!analysis/**
