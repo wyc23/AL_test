@@ -15,8 +15,8 @@ CUTEST_METADATA = "../cutest.csv"      # CUTEst metadata file
 
 # SOLNP+ configuration
 SOLNP_CONFIG = {
-    "tol": 1e-6,          # Convergence tolerance
-    "tol_con": 1e-4,      # Infeasibility tolerance
+    "tol": 1e-4,          # Convergence tolerance
+    "tol_con": 1e-6,      # Infeasibility tolerance
     "maxfev": 1000,        # Maximum function evaluations
     "max_iter": 50        # Maximum iterations
 }
