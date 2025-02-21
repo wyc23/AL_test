@@ -85,3 +85,24 @@ solnp_max_cons = solnp_solved['m'].max()
 
 print(f"Maximum number of variables for problems solved by SOLNP+: {solnp_max_vars}")
 print(f"Maximum number of constraints for problems solved by SOLNP+: {solnp_max_cons}")
+
+# the status of SOLNP+ for problems only solved by NLOPT
+
+print("="*50)
+
+nlopt_problem_names = nlopt_only['problem'].tolist()
+solnp_nlopt_only = solnp_df[solnp_df['problem'].isin(nlopt_problem_names)]
+
+solnp_nlopt_only_status = solnp_nlopt_only['status'].value_counts()
+
+print(f"SOLNP+ status for problems solved by NLOPT only:")
+print(solnp_nlopt_only_status)
+
+# print the problems only solved by NLOPT
+
+print("="*50)
+
+print("Problems solved by NLOPT only:")
+print(nlopt_only['problem'].tolist())
+
+
