@@ -14,4 +14,7 @@
 !results/
 !results/**/*.csv
 !analysis/
-!analysis/**
+!analysis/**/*.py
+!analysis/**/*.txt
+!solnp_python/
+!solnp_python/**/*.py
