@@ -6,8 +6,9 @@ import numpy as np
 SOLNP_CONFIG = {
     "tol": 1e-4,          # Convergence tolerance
     "tol_con": 1e-6,      # Infeasibility tolerance
-    "maxfev": 1000,        # Maximum function evaluations
-    "max_iter": 100        # Maximum iterations
+    "maxfev": 10000,        # Maximum function evaluations
+    "max_iter": 10000,        # Maximum iterations
+    "noise": 0,         # Noise level for finite difference gradient
 }
 
 def evaluate_problem(problem_name):
@@ -57,12 +58,11 @@ def evaluate_problem(problem_name):
     return info
 
 if __name__ == "__main__":
-    problems = ['3PK', 'AKIVA', 'ARGAUSS', 'ARGLINA', 'ARGLINB', 'ARGLINC', 'ARGTRIGLS', 'BA-L1LS', 'BA-L1SPLS', 'BENNETT5LS', 'BROWNAL', 'CANTILVR', 'CHEBYQAD', 'CHNROSNB', 'CHNRSNBM', 'COATING', 'DANWOODLS', 'DECONVB', 'DECONVC', 'DECONVU', 'DEVGLA1', 'DEVGLA1B', 'DEVGLA2', 'DIAMON3DLS', 'DIXCHLNG', 'DMN15103LS', 'DMN15333LS', 'DUAL1', 'DUAL2', 'DUAL3', 'DUAL4', 'ERRINROS', 'ERRINRSM', 'EXTRASIM', 'FBRAIN3LS', 'GAUSS2LS', 'GENROSE', 'HADAMALS', 'HAHN1LS', 'HATFLDF', 'HATFLDFLNE', 'HIELOW', 'HIMMELP5', 'HIMMELP6', 'HOLMES', 'HS10', 'HS11', 'HS110', 'HS268', 'HS33', 'HS64', 'HS72', 'HS90', 'HS91', 'HS92', 'HUBFIT', 'HYDC20LS', 'HYDROELS', 'LEVYMONT', 'LINSPANH', 'LSQFIT', 'LUKSAN11LS', 'LUKSAN12LS', 'LUKSAN13LS', 'LUKSAN14LS', 'LUKSAN15LS', 'LUKSAN16LS', 'LUKSAN17LS', 'LUKSAN21LS', 'LUKSAN22LS', 'MANCINO', 'MISRA1CLS', 'MNISTS0LS', 'MNISTS5LS', 'OSBORNEA', 'OSCIPATH', 'PALMER2A', 'PALMER3A', 'PALMER4A', 'PALMER7A', 'PARKCH', 'PENALTY2', 'PENALTY3', 'PENLT1NE', 'PENLT2NE', 'POLAK1', 'POWELLSQ', 'PROBPENL', 'QING', 'S268', 'SENSORS', 'SPECAN', 'SPIN2LS', 'STRATEC', 'TAME', 'TFI1', 'TOINTGOR', 'TOINTPSP', 'TOINTQOR', 'VARDIM', 'VARDIMNE', 'WAYSEA1B', 'WEEDS']
-    inf_count = 0
+    problems = ['3PK', 'ARGAUSS', 'CANTILVR', 'CHEBYQAD', 'CHNROSNB', 'CHNRSNBM', 'CLUSTER', 'DECONVB', 'DECONVU', 'DMN15333LS', 'DMN37143LS', 'DUAL1', 'DUAL2', 'DUAL3', 'FLT', 'GENROSE', 'HADAMALS', 'HATFLDFLNE', 'HOLMES', 'HS10', 'HS11', 'HS31', 'HS33', 'HS64', 'HS72', 'HS89', 'HS90', 'HS91', 'HS92', 'HUBFIT', 'HYDROELS', 'LINSPANH', 'LSQFIT', 'LUKSAN11LS', 'LUKSAN12LS', 'LUKSAN13LS', 'LUKSAN14LS', 'LUKSAN17LS', 'LUKSAN21LS', 'LUKSAN22LS', 'MAKELA1', 'MIFFLIN2', 'MNISTS0LS', 'MNISTS5LS', 'PALMER5E', 'PENLT1NE', 'PENLT2NE', 'POLAK1', 'POWELLSQ', 'PROBPENL', 'QING', 'SENSORS', 'SPIN2LS', 'TFI1', 'TOINTGOR', 'TOINTPSP', 'TOINTQOR']
     for problem in problems:
         print(f"Running {problem}...", flush=True)
         result = evaluate_problem(problem)
+        print(f"obj history: {result['jh']}", flush=True)
         print("\n", flush=True)
-        if result['obj'] == np.inf or result['obj'] == -np.inf:
-            inf_count += 1
-    print(f"Problem with inf: {inf_count}")
+
+
