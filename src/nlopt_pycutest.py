@@ -10,7 +10,7 @@ MAX_VARIABLES = 500       # Maximum number of variables
 MAX_CONSTRAINTS = 1000    # Maximum number of constraints
 RESULTS_FILE = "../results/nlopt_pycutest_results.csv"  # Results file name
 CUTEST_METADATA = "../cutest.csv"         # CUTEst metadata file
-EPSILON = 1e-4            # Finite difference step size
+EPSILON = 1e-5            # Finite difference step size
 
 # Optimizer configuration
 OPTIMIZER_CONFIG = {
