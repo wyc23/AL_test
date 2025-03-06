@@ -109,14 +109,14 @@ solnp_nlopt_only_status = solnp_nlopt_only['status'].value_counts()
 print(f"SOLNP+ status for problems solved by NLOPT only:")
 print(solnp_nlopt_only_status)
 
-# # print the problems only solved by NLOPT with SOLNP+ status 0
+# print the problems only solved by NLOPT with SOLNP+ status 0
 
-# print("="*50)
+print("="*50)
 
-# solnp_nlopt_only_status_0 = solnp_nlopt_only[solnp_nlopt_only['status'] == '0']
+solnp_nlopt_only_status_0 = solnp_nlopt_only[solnp_nlopt_only['status'] == '0']
 
-# print("Problems solved by NLOPT only with SOLNP+ status 0:")
-# print(solnp_nlopt_only_status_0['problem'].tolist())
+print("Problems solved by NLOPT only with SOLNP+ status 0:")
+print(solnp_nlopt_only_status_0['problem'].tolist())
 
 # print the objective values for problems solved by NLOPT only with SOLNP+ status 0
 
@@ -145,19 +145,24 @@ print(solnp_nlopt_only_status)
 # print("Problems solved by SOLNP+ only:")
 # print(solnp_only['problem'].tolist())
 
-# # print the common problems solved by both solvers
+# print the common problems solved by both solvers
 
 # print("="*50)
 
 # print("Common problems solved by both solvers:")
 # print(common_problems['problem'].tolist())
 
-# plot the evaluations per iteration vs n for SOLNP+ on the solved problems
+# # plot the evaluations per iteration vs n for SOLNP+ on the solved problems
 
-plt.figure(figsize=(10, 6))
-plt.scatter(solnp_solved['n'], solnp_solved['count_cost'] / solnp_solved['iter'], color='blue')
-plt.xlabel('Number of variables')
-plt.ylabel('Evaluations per iteration')
-plt.title('Evaluations per iteration vs n for SOLNP+ on solved problems')
-plt.savefig('../results/solnp_evals_per_iter_vs_n.png')
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.scatter(solnp_solved['n'], solnp_solved['count_cost'] / solnp_solved['iter'], color='blue')
+# plt.xlabel('Number of variables')
+# plt.ylabel('Evaluations per iteration')
+# plt.title('Evaluations per iteration vs n for SOLNP+ on solved problems')
+# plt.savefig('../results/solnp_evals_per_iter_vs_n.png')
+# plt.show()
+
+# get all problems
+
+all_problems = nlopt_df['problem'].tolist()
+print(all_problems)
