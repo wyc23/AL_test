@@ -117,16 +117,16 @@ def setup_optimizer(problem):
     # Add constraints
     for i in range(m):
         if problem.is_eq_cons[i]:
-            opt.add_equality_constraint(lambda x, grad: eq_constraint(x, grad, i), 1e-6)
+            opt.add_equality_constraint(lambda x, grad: eq_constraint(x, grad, i), 1e-3)
         else:
             cl_i = problem.cl[i] if problem.cl is not None else -np.inf
             cu_i = problem.cu[i] if problem.cu is not None else np.inf
             # Lower constraint
             if cl_i > -np.inf:
-                opt.add_inequality_constraint(lambda x, grad: lower_constraint(x, grad, i, cl_i), 1e-6)
+                opt.add_inequality_constraint(lambda x, grad: lower_constraint(x, grad, i, cl_i), 1e-3)
             # Upper constraint
             if cu_i < np.inf:
-                opt.add_inequality_constraint(lambda x, grad: upper_constraint(x, grad, i, cu_i), 1e-6)
+                opt.add_inequality_constraint(lambda x, grad: upper_constraint(x, grad, i, cu_i), 1e-3)
     
     # Set optimizer parameters
     opt.set_xtol_rel(OPTIMIZER_CONFIG["xtol_rel"])
@@ -181,7 +181,7 @@ def evaluate_problem(problem_name):
             
             # Record results
             result.update({
-                "success": exit_code in SUCCESS_CODES if infeasibility < 1e-2 else False,
+                "success": exit_code in SUCCESS_CODES if infeasibility < 1e-3 else False,
                 "objective": min_value,
                 "infeasibility": np.sqrt(infeasibility) if infeasibility > 0 else 0.0,
                 "evaluations": eval_count,
