@@ -16,7 +16,7 @@ CUTEST_METADATA = "../cutest.csv"      # CUTEst metadata file
 # SOLNP+ configuration
 SOLNP_CONFIG = {
     "tol": 1e-4,          # Convergence tolerance
-    "tol_con": 1e-6,      # Infeasibility tolerance
+    "tol_con": 1e-3,      # Infeasibility tolerance
     "maxfev": 1000,        # Maximum function evaluations
     "max_iter": 1000,        # Maximum iterations
     "noise": 0,         # Noise level for finite difference gradient
