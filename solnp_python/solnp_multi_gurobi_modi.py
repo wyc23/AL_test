@@ -1,3 +1,4 @@
+import csv
 import pycutest
 import numpy as np 
 import matplotlib.pyplot as plt
@@ -23,21 +24,40 @@ def infeas(x, eq_constraints, l_x, u_x, threshold=1e10):
     infeas_bounds = np.sum(np.maximum(0, x - effective_u)**2) + np.sum(np.maximum(0, effective_l - x)**2)
     return np.sqrt(infeas_eq + infeas_bounds)
 
+def load_filtered_problems(csv_path):
+    """Load and filter problem names from CSV based on size limits."""
+    valid_problems = []
+    with open(csv_path, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            try:
+                n = int(row['n'])
+                m = int(row['m'])
+                if n <= 500 and m <= 1000:
+                    valid_problems.append(row['Name'])
+            except (ValueError, KeyError) as e:
+                print(f"Skipping invalid row: {row.get('Name', 'Unknown')} - {str(e)}")
+    return valid_problems
+
 # 定义问题集
-problem_names = [  
-                 'HS99'
-    #  'HS10','HS11','HS12','HS13','HS14','HS15','HS16','HS17','HS18','HS19',
-    #  'HS20','HS21','HS22','HS23','HS24','HS25','HS26','HS27','HS28','HS29',  
-    #  'HS30','HS31','HS32','HS33','HS34','HS35','HS36','HS37','HS38','HS39',  
-    #  'HS40','HS41','HS42','HS43','HS44','HS45','HS46','HS47','HS48','HS49',  
-    #  'HS50','HS51','HS52','HS53','HS54','HS55','HS56','HS57', 'HS59'    ,
-    #  'HS60','HS61','HS62','HS63','HS64','HS65','HS66','HS67','HS68','HS69',  
-    #  'HS70','HS71','HS72','HS73','HS74','HS75','HS76','HS77','HS78','HS79',  
-    #  'HS80','HS81','HS83','HS84','HS85','HS86','HS87','HS88','HS89',         
-    #  'HS90','HS91','HS92','HS93','HS95','HS96','HS97','HS98','HS99',        
-    #  'HS100','HS101','HS102','HS103','HS104','HS105','HS109',              
-    #  'HS110','HS114'                                
-]
+# problem_names = [  
+#                  'HS99'
+#     #  'HS10','HS11','HS12','HS13','HS14','HS15','HS16','HS17','HS18','HS19',
+#     #  'HS20','HS21','HS22','HS23','HS24','HS25','HS26','HS27','HS28','HS29',  
+#     #  'HS30','HS31','HS32','HS33','HS34','HS35','HS36','HS37','HS38','HS39',  
+#     #  'HS40','HS41','HS42','HS43','HS44','HS45','HS46','HS47','HS48','HS49',  
+#     #  'HS50','HS51','HS52','HS53','HS54','HS55','HS56','HS57', 'HS59'    ,
+#     #  'HS60','HS61','HS62','HS63','HS64','HS65','HS66','HS67','HS68','HS69',  
+#     #  'HS70','HS71','HS72','HS73','HS74','HS75','HS76','HS77','HS78','HS79',  
+#     #  'HS80','HS81','HS83','HS84','HS85','HS86','HS87','HS88','HS89',         
+#     #  'HS90','HS91','HS92','HS93','HS95','HS96','HS97','HS98','HS99',        
+#     #  'HS100','HS101','HS102','HS103','HS104','HS105','HS109',              
+#     #  'HS110','HS114'                                
+# ]
+
+# problem_names = ['AIRCRFTB', 'ALLINITU', 'ARGLINA', 'ARGLINB', 'ARGLINC', 'ARGTRIGLS', 'BA-L1LS', 'BA-L1SPLS', 'BARD', 'BEALE', 'BIGGS3', 'BIGGS5', 'BIGGS6', 'BLEACHNG', 'BOX2', 'BOX3', 'BOXBODLS', 'BQP1VAR', 'BQPGABIM', 'BQPGASIM', 'BRANIN', 'BRKMCC', 'BROWNAL', 'BROWNBS', 'BROWNDEN', 'BT1', 'BT13', 'BT2', 'CAMEL6', 'CERI651ALS', 'CERI651BLS', 'CERI651CLS', 'CERI651DLS', 'CERI651ELS', 'CHWIRUT1LS', 'CHWIRUT2LS', 'CLIFF', 'CLUSTERLS', 'COATING', 'COOLHANSLS', 'CUBE', 'DANIWOODLS', 'DENSCHNA', 'DENSCHNB', 'DENSCHNC', 'DENSCHND', 'DENSCHNE', 'DENSCHNF', 'DEVGLA1B', 'DGOSPEC', 'DIAMON2DLS', 'DIAMON3DLS', 'DIXCHLNG', 'DJTL', 'DMN15102LS', 'DMN15103LS', 'DMN15332LS', 'DMN37142LS', 'DUAL4', 'ECKERLE4LS', 'EGGCRATE', 'EGGCRATEB', 'ELATVIDU', 'ELATVIDUB', 'ENGVAL2', 'ENSOLS', 'ERRINROS', 'ERRINRSM', 'EXP2', 'EXP2B', 'EXPFIT', 'FBRAIN2LS', 'FBRAIN3LS', 'FBRAINLS', 'GAUSS1LS', 'GAUSS2LS', 'GAUSS3LS', 'GAUSSIAN', 'GBRAINLS', 'GROWTHLS', 'GULF', 'HAHN1LS', 'HAIRY', 'HART6', 'HATFLDA', 'HATFLDB', 'HATFLDC', 'HATFLDD', 'HATFLDE', 'HATFLDF', 'HATFLDFL', 'HATFLDFLS', 'HATFLDGLS', 'HEART6LS', 'HEART8LS', 'HELIX', 'HILBERTA', 'HILBERTB', 'HIMMELBB', 'HIMMELBCLS', 'HIMMELBF', 'HIMMELBG', 'HIMMELBH', 'HIMMELP1', 'HIMMELP2', 'HIMMELP3', 'HIMMELP4', 'HONG', 'HS1', 'HS110', 'HS12', 'HS1NE', 'HS25', 'HS26', 'HS27', 'HS28', 'HS29', 'HS3', 'HS30', 'HS32', 'HS35', 'HS35I', 'HS35MOD', 'HS36', 'HS38', 'HS3MOD', 'HS4', 'HS46', 'HS5', 'HS50', 'HS51', 'HS54', 'HS57', 'HS6', 'HS60', 'HS62', 'HS7', 'HS70', 'HS9', 'HUMPS', 'HYDC20LS', 'HYDCAR6LS', 'JENSMP', 'JUDGE', 'JUDGEB', 'KIRBY2LS', 'KOEBHELB', 'KOWOSB', 'LANCZOS1LS', 'LANCZOS2LS', 'LANCZOS3LS', 'LEAKNET', 'LEVYMONT', 'LEVYMONT10', 'LEVYMONT5', 'LEVYMONT6', 'LEVYMONT7', 'LEVYMONT8', 'LEVYMONT9', 'LOGHAIRY', 'LSC1LS', 'LSC2LS', 'LUKSAN15LS', 'LUKSAN16LS', 'MANCINO', 'MARATOS', 'MARATOSB', 'MDHOLE', 'METHANB8LS', 'METHANL8LS', 'MEXHAT', 'MEYER3', 'MGH09LS', 'MGH10LS', 'MGH10SLS', 'MGH17LS', 'MGH17SLS', 'MINSURF', 'MISRA1ALS', 'MISRA1BLS', 'MISRA1CLS', 'MISRA1DLS', 'MUONSINELS', 'NELSONLS', 'OSBORNEA', 'OSBORNEB', 'OSCIPATH', 'PALMER1', 'PALMER1A', 'PALMER1B', 'PALMER1C', 'PALMER1D', 'PALMER1E', 'PALMER2', 'PALMER2A', 'PALMER2B', 'PALMER2C', 'PALMER2E', 'PALMER3', 'PALMER3A', 'PALMER3B', 'PALMER3C', 'PALMER3E', 'PALMER4', 'PALMER4A', 'PALMER4B', 'PALMER4C', 'PALMER4E', 'PALMER5A', 'PALMER5B', 'PALMER5C', 'PALMER5D', 'PALMER6A', 'PALMER6C', 'PALMER6E', 'PALMER7A', 'PALMER7C', 'PALMER7E', 'PALMER8A', 'PALMER8C', 'PALMER8E', 'PENALTY2', 'PENALTY3', 'PFIT1LS', 'PFIT2LS', 'PFIT3LS', 'PFIT4LS', 'PORTFL1', 'PORTFL2', 'PORTFL3', 'PORTFL4', 'PORTFL6', 'POWELLBSLS', 'POWELLSQLS', 'POWERSUM', 'POWERSUMB', 'PRICE3', 'PRICE3B', 'PRICE4', 'PRICE4B', 'QC', 'QINGB', 'RAT42LS', 'RAT43LS', 'RECIPELS', 'ROSENBR', 'ROSENBRTU', 'ROSZMAN1LS', 'RSNBRNE', 'S308', 'S316-322', 'S368', 'SANTALS', 'SINEVAL', 'SISSER', 'SNAIL', 'SPECAN', 'SSI', 'STRATEC', 'STREG', 'STREGNE', 'STRTCHDV', 'STRTCHDVB', 'THURBERLS', 'TRIGON1', 'TRIGON1B', 'TRIGON2', 'TRIGON2B', 'TRY-B', 'VANDANMSLS', 'VARDIM', 'VARDIMNE', 'VESUVIALS', 'VESUVIOLS', 'VESUVIOULS', 'VIBRBEAM', 'WATSON', 'WAYSEA1', 'WAYSEA1B', 'WAYSEA2', 'WAYSEA2B', 'WEEDS', 'YFIT', 'YFITU', 'ZANGWIL2', 'ZY2']
+problem_names = ['HS10', 'HS11', 'HS31', 'HS33', 'HS64', 'HS72', 'HS89', 'HS90', 'HS91', 'HS92']
+# problem_names = load_filtered_problems('../cutest.csv')
 
 # 创建保存结果的文件夹
 output_folder = 'results_gurobi_modi'
@@ -47,6 +67,8 @@ final_results = []
 skipped_problems = []
 
 for problem_name in problem_names:
+    print("="*50)
+    print(f"Problem: {problem_name}")
     # 从 PyCUTEst 读取问题
     problem = pycutest.import_problem(problem_name)
 
@@ -142,7 +164,7 @@ for problem_name in problem_names:
     def solve_qp_subproblem_with_gurobi(xi_k, H, gradient_L, J, p_f_k, p_k, l_x, u_x, tol):
         n_vars = len(xi_k)
         model = gp.Model("qp_subproblem")
-        model.Params.TimeLimit = 60
+        model.Params.TimeLimit = 30
         model.Params.FeasibilityTol = tol
         model.Params.OutputFlag = 0
 
